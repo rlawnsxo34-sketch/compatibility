@@ -128,6 +128,9 @@
         .char-box {
             text-align: center;
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .char-circle {
             width: 80px;
@@ -146,10 +149,21 @@
             height: 75%;
             object-fit: contain;
         }
+        
+        /* 💡 수정된 부분: 이름 글자 수 길어질 때 예쁘게 처리 */
         .char-name {
             font-family: 'Jua', sans-serif;
-            font-size: 16px;
+            font-size: 15px; /* 폰트 크기 미세 조정 */
+            line-height: 1.2;
+            word-break: keep-all; /* 단어 중간에 끊기지 않도록 설정 */
+            min-height: 36px; /* 1줄/2줄 높이를 맞춰서 카드 균형 유지 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+            padding: 0 5px;
         }
+
         .char-type {
             font-size: 12px;
             color: #666;
@@ -163,11 +177,10 @@
             border-radius: 20px;
             font-family: 'Jua', sans-serif;
             font-size: 18px;
-            margin: 0 10px;
+            margin: 0 5px;
             white-space: nowrap;
         }
         
-        /* 환장의 짝꿍일 때 색상 변경용 */
         .score-badge.bad {
             background-color: var(--danger-red);
         }
@@ -201,8 +214,6 @@
         .card-footer {
             margin-top: 20px;
             text-align: center;
-            font-size: 11px;
-            color: #999;
         }
 
         /* 버튼들 */
@@ -278,7 +289,6 @@
             </div>
 
             <div class="card-footer">
-                <!-- 하단 로고를 포이, 마리 캐릭터 이미지로 변경하고 크기를 조정했습니다 -->
                 <img src="핸드폰_포이,마리.png" alt="포이와 마리 캐릭터" style="height: 80px; object-fit: contain;" onerror="this.style.display='none'">
             </div>
         </div>
@@ -353,14 +363,11 @@
         let tag = "";
         let msg = "";
 
-        // 1. 영혼의 단짝 (같은 MBTI)
         if (myKey === yourKey) {
             scoreText = "영혼의 단짝";
             tag = "#거울치료 #텔레파시";
             msg = `말하지 않아도 눈빛만으로 통하는 완벽한 복제형 동료네요!<br>서로의 장단점을 너무 잘 알아서 숲의 어떤 시련도 함께 웃으며 이겨낼 수 있는 무적의 조합입니다.`;
-        } 
-        // 2. 환상의 짝꿍 (특정 상보적 관계 - 예시로 몇 가지 설정)
-        else if (
+        } else if (
             (myKey === 'ENFP' && yourKey === 'INTJ') || (myKey === 'INTJ' && yourKey === 'ENFP') ||
             (myKey === 'ENTP' && yourKey === 'INFJ') || (myKey === 'INFJ' && yourKey === 'ENTP') ||
             (myKey === 'ESTP' && yourKey === 'ISFJ') || (myKey === 'ISFJ' && yourKey === 'ESTP')
@@ -368,15 +375,11 @@
             scoreText = "환상의 짝꿍";
             tag = "#최강시너지 #상호보완";
             msg = `한 명은 기발한 상상을 하고, 한 명은 그것을 현실로 만드는 최고의 공생 관계!<br>서로의 부족한 점을 자석처럼 딱 채워주니, 함께라면 방장산 정상 정복도 식은 죽 먹기겠군요.`;
-        }
-        // 3. 찰떡궁합 (같은 성향 그룹 SJ-SJ, NF-NF 등)
-        else if (my.group === your.group) {
+        } else if (my.group === your.group) {
             scoreText = "찰떡궁합";
             tag = "#안정적인숲길 #평화주의";
             msg = `비슷한 가치관과 속도를 가진 두 분이 만났네요!<br>숲을 탐험하는 방식이 닮아 있어 큰 갈등 없이 서로를 믿고 의지하며 걷는 아주 편안하고 따뜻한 파트너가 될 것입니다.`;
-        }
-        // 4. 환장의 짝꿍 (대조적 성향 - 예시)
-        else if (
+        } else if (
             (myKey === 'ENTJ' && yourKey === 'ISFP') || (myKey === 'ISFP' && yourKey === 'ENTJ') ||
             (myKey === 'ESTJ' && yourKey === 'INFP') || (myKey === 'INFP' && yourKey === 'ESTJ') ||
             (myKey === 'ISTJ' && yourKey === 'ENFP') || (myKey === 'ENFP' && yourKey === 'ISTJ')
@@ -386,9 +389,7 @@
             msg = `한 명은 직진하는데 한 명은 꽃향기를 맡는, 속도가 너무 다른 두 분이군요!<br>서로 '왜 저럴까?' 싶겠지만, 그 다름을 인정하는 순간 숲은 더 풍성해집니다. 조금만 천천히 기다려 주세요!`;
             scoreBadge.classList.add('bad');
             infoBox.classList.add('bad');
-        }
-        // 5. 일반적인 파트너
-        else {
+        } else {
             scoreText = "좋은 파트너";
             tag = "#새로운발견 #성장케미";
             msg = `서로의 다른 매력에 깜짝깜짝 놀라게 되는 신선한 조합입니다!<br>때로는 이해가 안 가기도 하겠지만, 서로에게 배우는 점이 많아 함께할수록 숲속 모험이 더 다채롭고 즐거워질 거예요.`;
@@ -431,5 +432,6 @@
 </script>
 
 </body>
-
 </html>
+
+
